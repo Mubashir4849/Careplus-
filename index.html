@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarePulse - Doctor Appointment System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <!-- Header Section -->
+  <header class="navbar">
+    <div class="logo"><i class="fa-solid fa-heart-pulse"></i> Care<span>Pulse</span></div>
+    <nav class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#doctors">Find Doctors</a>
+      <a href="#" onclick="openAppointmentsModal()">My Appointments</a>
+    </nav>
+    <button class="btn-primary" onclick="openModal()">Book Now</button>
+  </header>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Find & Book Top Doctors Near You</h1>
+    <p>Easy, fast, and reliable healthcare management platform.</p>
+    
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by name or specialty..." onkeyup="filterDoctors()">
+      <button><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+    </div>
+  </section>
+
+  <!-- Doctor List Section -->
+  <section class="doctors-container" id="doctors">
+    <h2>Available Specialists</h2>
+    <div class="doctor-grid" id="doctorGrid">
+      <!-- Cards will be populated dynamically or static HTML -->
+      <div class="doctor-card" data-specialty="Cardiologist">
+        <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Dr. Ali Raza</h3>
+        <p class="specialty">Cardiologist</p>
+        <span class="badge">Available Today</span>
+        <button class="btn-secondary" onclick="openModal('Dr. Ali Raza')">Book Appointment</button>
+      </div>
+
+      <div class="doctor-card" data-specialty="Dermatologist">
+        <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Dr. Sara Khan</h3>
+        <p class="specialty">Dermatologist</p>
+        <span class="badge">Available Tomorrow</span>
+        <button class="btn-secondary" onclick="openModal('Dr. Sara Khan')">Book Appointment</button>
+      </div>
+      <div class="doctor-card" data-specialty="Dermatologist">
+        <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Dr. Ghazanfar Abbas</h3>
+        <p class="specialty">child Specialist</p>
+        <span class="badge">Available Tomorrow</span>
+        <button class="btn-secondary" onclick="openModal('Dr. Ghazanfar Abbas')">Book Appointment</button>
+      </div>
+      <div class="doctor-card" data-specialty="Dermatologist">
+        <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Dr. Nadeem Ansari</h3>
+        <p class="specialty">kidney Specialist</p>
+        <span class="badge">Available Tomorrow</span>
+        <button class="btn-secondary" onclick="openModal('Dr. Ghazanfar Abbas')">Book Appointment</button>
+      </div>
+
+      <div class="doctor-card" data-specialty="Neurologist">
+        <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Dr. Usman Ahmed</h3>
+        <p class="specialty">Neurologist</p>
+        <span class="badge">Available Today</span>
+        <button class="btn-secondary" onclick="openModal('Dr. Usman Ahmed')">Book Appointment</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Modal -->
+  <div class="modal" id="bookingModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+
+      <!-- 1. Booking Form -->
+      <div id="bookingFormView">
+        <h2>Book Appointment</h2>
+        <form id="appointmentForm" onsubmit="saveAppointment(event)">
+          <label for="doctorName">Doctor Name</label>
+          <input type="text" id="doctorName" readonly required>
+
+          <label for="patientName">Patient Name</label>
+          <input type="text" id="patientName" placeholder="Enter your full name" required>
+
+          <label for="appDate">Appointment Date</label>
+          <input type="date" id="appDate" required>
+
+          <button type="submit" class="btn-primary">Confirm Booking</button>
+        </form>
+      </div>
+
+      <!-- 2. Receipt View -->
+      <div id="confirmationView" style="display: none;">
+        <div class="receipt-card">
+          <div class="receipt-header">
+            <i class="fa-solid fa-hospital"></i>
+            <h3>CAREPULSE CLINIC</h3>
+            <p>Official Booking Slip</p>
+          </div>
+          
+          <div class="receipt-divider"></div>
+
+          <div class="receipt-body">
+            <div class="receipt-row">
+              <span>Patient Name:</span>
+              <strong id="resPatient">---</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Doctor Assigned:</span>
+              <strong id="resDoctor">---</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Appointment Date:</span>
+              <strong id="resDate">---</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Booking ID:</span>
+              <strong id="resId">#CP-8942</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Payment Status:</span>
+              <strong style="color: #16a34a;">Pay at Hospital</strong>
+            </div>
+          </div>
+
+          <div class="receipt-divider"></div>
+
+          <div class="receipt-footer">
+            <p>Thank you for choosing CarePulse!</p>
+            <button class="btn-primary" onclick="closeModal()">Close Receipt</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- My Appointments List Modal -->
+  <div class="modal" id="myAppointmentsModal">
+    <div class="modal-content appointments-modal-content">
+      <span class="close-btn" onclick="closeAppointmentsModal()">&times;</span>
+      
+      <div class="modal-header">
+        <i class="fa-solid fa-calendar-check"></i>
+        <h2>My Appointments</h2>
+      </div>
+
+      <div class="appointments-list-container" id="appointmentsList">
+        <!-- JS appointments ko yahan dynamically insert karega -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
